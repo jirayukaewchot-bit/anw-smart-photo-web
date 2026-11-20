@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANW Smart photo</title>
+<style>
+:root{
+  --orange:#f47721;--orange-dark:#d95d0b;--ink:#20242b;--muted:#707783;
+  --bg:#f5f6f8;--line:#e8e9ed;--white:#fff;--soft:#fff3e9;--green:#16865b;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+button,input{font:inherit}
+.topbar{height:68px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:-.3px}
+.logo{width:40px;height:40px;border-radius:12px;background:var(--orange);color:white;display:grid;place-items:center;font-size:20px;font-weight:900}
+.brand small{display:block;color:var(--muted);font-size:11px;font-weight:500;letter-spacing:0}
+.top-right{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px}
+.pill{background:#f1f2f4;border-radius:99px;padding:8px 12px}
+main{max-width:1120px;margin:34px auto;padding:0 22px}
+.hero{background:linear-gradient(115deg,#f47721,#ff9a4a);border-radius:22px;padding:34px 36px;color:white;display:flex;justify-content:space-between;align-items:center;gap:20px;overflow:hidden;position:relative}
+.hero:after{content:"";position:absolute;width:260px;height:260px;border:40px solid #ffffff20;border-radius:50%;right:8%;top:-130px}
+.hero h1{font-size:clamp(26px,4vw,38px);margin:0 0 8px;letter-spacing:-.8px}
+.hero p{margin:0;color:#fff4eb;line-height:1.7;max-width:570px}
+.hero-mark{font-size:76px;opacity:.95;z-index:1;padding-right:25px}
+.section-title{display:flex;justify-content:space-between;align-items:end;margin:30px 0 14px}
+.section-title h2{font-size:20px;margin:0}
+.section-title p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.card{background:white;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 4px 18px #1b26300a}
+.search-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
+.upload{border:2px dashed #f2b17f;background:#fffaf6;border-radius:15px;min-height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;cursor:pointer;transition:.2s}
+.upload:hover{border-color:var(--orange);background:#fff5ed}
+.upload-icon{width:54px;height:54px;border-radius:16px;background:#ffe5d1;color:var(--orange-dark);display:grid;place-items:center;font-size:27px;margin-bottom:12px}
+.upload strong{font-size:16px}
+.upload span{font-size:13px;color:var(--muted);margin-top:6px}
+.upload button,.primary{border:0;background:var(--orange);color:white;border-radius:10px;padding:11px 18px;font-weight:700;margin-top:16px;cursor:pointer}
+.upload button:hover,.primary:hover{background:var(--orange-dark)}
+.preview{display:none;max-width:100%;max-height:165px;border-radius:12px;margin-bottom:10px;object-fit:contain}
+.options h3{font-size:16px;margin:0 0 8px}
+.options p{font-size:13px;color:var(--muted);line-height:1.6;margin:0 0 16px}
+.field-label{font-size:13px;font-weight:700;display:block;margin:15px 0 7px}
+select{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--ink)}
+.primary{width:100%;padding:13px;margin-top:22px}
+.notice{font-size:12px;color:#8b5a2b;background:#fff7ed;border:1px solid #ffe0c2;border-radius:11px;padding:12px;line-height:1.6;margin-top:16px}
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.quick{display:flex;gap:13px;align-items:center;padding:18px}
+.quick-icon{width:42px;height:42px;flex:none;border-radius:13px;background:var(--soft);color:var(--orange-dark);display:grid;place-items:center;font-size:20px}
+.quick b{display:block;font-size:14px}
+.quick small{color:var(--muted);font-size:12px}
+.results{margin-top:26px;display:none}
+.result-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.result-card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.fake-photo{height:135px;background:linear-gradient(135deg,#f4e4d7,#dce5ec);display:grid;place-items:center;color:#7b8792;font-size:13px}
+.result-info{padding:13px}
+.result-info b{font-size:13px}
+.result-info p{font-size:12px;color:var(--muted);margin:5px 0 0}
+footer{text-align:center;color:#9298a2;font-size:12px;padding:30px 15px 38px}
+@media(max-width:760px){
+ .topbar{padding:0 17px}.top-right .pill{display:none}main{margin:20px auto;padding:0 15px}
+ .hero{padding:25px 22px}.hero-mark{font-size:54px;padding:0}.search-layout{grid-template-columns:1fr}
+ .quick-grid{grid-template-columns:1fr}.result-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:420px){.hero-mark{display:none}.card{padding:17px}.result-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="logo">A</div><div>ANW Smart photo<small>ระบบค้นหาภาพกิจกรรมของวิทยาลัย</small></div></div>
+  <div class="top-right"><span class="pill">สำหรับนักเรียน นักศึกษา และบุคลากร</span><span>เมนูผู้ใช้งาน ▾</span></div>
+</header>
+<main>
+  <section class="hero">
+    <div><h1>ค้นหาภาพกิจกรรม<br>ของคุณได้ง่ายขึ้น</h1><p>ค้นหาภาพจากกิจกรรมและข่าวประชาสัมพันธ์ของวิทยาลัยในที่เดียว ช่วยให้การย้อนกลับไปดูและค้นหารูปภาพสะดวกยิ่งขึ้น</p></div>
+    <div class="hero-mark">⌕</div>
+  </section>
+
+  <div class="section-title"><div><h2>ค้นหาภาพของฉัน</h2><p>เลือกรูปภาพตัวอย่างเพื่อเริ่มต้นค้นหา</p></div></div>
+  <section class="search-layout">
+    <div class="card">
+      <label class="upload" for="photoInput">
+        <div class="upload-icon">＋</div>
+        <img id="preview" class="preview" alt="ตัวอย่างภาพที่เลือก">
+        <strong id="uploadTitle">เลือกรูปภาพเพื่อค้นหา</strong>
+        <span id="uploadSub">แตะเพื่อเลือกรูปจากอุปกรณ์ของคุณ</span>
+        <button type="button" onclick="document.getElementById('photoInput').click()">เลือกรูปภาพ</button>
+        <input id="photoInput" type="file" accept="image/*" hidden>
+      </label>
+    </div>
+    <div class="card options">
+      <h3>ตั้งค่าการค้นหา</h3>
+      <p>เลือกแหล่งภาพกิจกรรมที่ต้องการค้นหา ระบบตัวอย่างนี้ยังใช้ข้อมูลจำลองเท่านั้น</p>
+      <label class="field-label" for="source">แหล่งภาพกิจกรรม</label>
+      <select id="source"><option>เพจองค์การนักวิชาชีพฯ (อวท.)</option><option>เพจหลักของวิทยาลัย (เตรียมรองรับ)</option></select>
+      <label class="field-label" for="period">ช่วงเวลากิจกรรม</label>
+      <select id="period"><option>ทุกช่วงเวลา</option><option>ภายใน 30 วันที่ผ่านมา</option><option>ภายใน 3 เดือนที่ผ่านมา</option><option>ภายใน 1 ปีที่ผ่านมา</option></select>
+      <button class="primary" id="searchBtn">ค้นหาภาพ</button>
+      <div class="notice">หมายเหตุ: ต้นแบบนี้ยังไม่เชื่อมต่อ Facebook หรือระบบ AI จริง ภาพที่เลือกจะแสดงตัวอย่างบนอุปกรณ์เท่านั้น</div>
+    </div>
+  </section>
+
+  <div class="section-title"><div><h2>ใช้งานอย่างไร?</h2><p>ออกแบบขั้นตอนให้เข้าใจง่าย ใช้งานได้ทั้งมือถือและคอมพิวเตอร์</p></div></div>
+  <section class="quick-grid">
+    <div class="card quick"><div class="quick-icon">①</div><div><b>เลือกรูปภาพ</b><small>เลือกรูปที่ต้องการใช้ค้นหา</small></div></div>
+    <div class="card quick"><div class="quick-icon">②</div><div><b>เริ่มค้นหา</b><small>ระบบประมวลผลและค้นหาภาพที่เกี่ยวข้อง</small></div></div>
+    <div class="card quick"><div class="quick-icon">③</div><div><b>เปิดภาพต้นฉบับ</b><small>เลือกดูภาพและไปยังโพสต์กิจกรรม</small></div></div>
+  </section>
+
+  <section class="results" id="results">
+    <div class="section-title result-head"><div><h2>ผลการค้นหา</h2><p>ตัวอย่างหน้าตาผลลัพธ์จากข้อมูลจำลอง</p></div><span class="pill">Demo</span></div>
+    <div class="result-grid">
+      <article class="result-card"><div class="fake-photo">ตัวอย่างภาพกิจกรรม 01</div><div class="result-info"><b>กิจกรรมของวิทยาลัย</b><p>ตัวอย่างผลลัพธ์ · ยังไม่มีลิงก์ต้นฉบับ</p></div></article>
+      <article class="result-card"><div class="fake-photo">ตัวอย่างภาพกิจกรรม 02</div><div class="result-info"><b>กิจกรรมของนักศึกษา</b><p>ตัวอย่างผลลัพธ์ · ยังไม่มีลิงก์ต้นฉบับ</p></div></article>
+      <article class="result-card"><div class="fake-photo">ตัวอย่างภาพกิจกรรม 03</div><div class="result-info"><b>กิจกรรมประชาสัมพันธ์</b><p>ตัวอย่างผลลัพธ์ · ยังไม่มีลิงก์ต้นฉบับ</p></div></article>
+    </div>
+  </section>
+</main>
+<footer>ANW Smart photo · Prototype UI · วิทยาลัยเทคโนโลยีหาดใหญ่อำนวยวิทย์</footer>
+<script>
+const input=document.getElementById('photoInput'), preview=document.getElementById('preview');
+input.addEventListener('change',()=>{
+ const file=input.files&&input.files[0]; if(!file)return;
+ if(!file.type.startsWith('image/')){alert('กรุณาเลือกไฟล์รูปภาพ');return;}
+ preview.src=URL.createObjectURL(file);preview.style.display='block';
+ document.getElementById('uploadTitle').textContent=file.name;
+ document.getElementById('uploadSub').textContent='เลือกรูปภาพแล้ว · แตะเพื่อเปลี่ยนรูป';
+});
+document.getElementById('searchBtn').addEventListener('click',()=>{
+ if(!input.files||!input.files.length){alert('กรุณาเลือกรูปภาพก่อนค้นหา');return;}
+ document.getElementById('results').style.display='block';
+ document.getElementById('results').scrollIntoView({behavior:'smooth'});
+});
+</script>
+</body>
+</html>
