@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เข้าสู่ระบบ | ANW Smart photo</title>
+<meta name="theme-color" content="#c2410c">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; base-uri 'self'; form-action 'self'">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23c2410c'/%3E%3Ctext x='32' y='45' font-size='36' font-weight='700' text-anchor='middle' fill='white' font-family='sans-serif'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-page">
+<main class="login-wrap" id="main">
+  <section class="card login-card" aria-labelledby="loginTitle">
+    <div class="login-brand">
+      <div class="logo" aria-hidden="true">A</div>
+      <div>
+        <h1 id="loginTitle">เข้าสู่ระบบ</h1>
+        <p class="hint">ANW Smart photo · ใช้บัญชีของวิทยาลัย</p>
+      </div>
+    </div>
+
+    <form id="loginForm" novalidate>
+      <label class="field-label" for="username">ชื่อผู้ใช้</label>
+      <input class="input" id="username" name="username" type="text"
+             autocomplete="username" autocapitalize="none" autocorrect="off"
+             spellcheck="false" required>
+
+      <label class="field-label" for="password">รหัสผ่าน</label>
+      <div class="pw-wrap">
+        <input class="input" id="password" name="password" type="password"
+               autocomplete="current-password" required>
+        <button type="button" class="pw-toggle" id="pwToggle" aria-pressed="false">แสดง</button>
+      </div>
+
+      <p class="msg msg-error" id="loginError" role="alert" hidden></p>
+
+      <button type="submit" class="btn btn-primary btn-lg" id="loginBtn">เข้าสู่ระบบ</button>
+    </form>
+
+    <p class="hint center">
+      <!-- TODO: เปลี่ยนเป็นลิงก์หรือช่องทางรีเซ็ตรหัสผ่านของวิทยาลัย -->
+      ลืมรหัสผ่าน? ติดต่อฝ่ายเทคโนโลยีสารสนเทศของวิทยาลัย
+    </p>
+    <p class="notice" id="demoNotice" hidden>โหมดทดลอง: ยังไม่เชื่อมระบบบัญชีวิทยาลัย กรอกอะไรก็เข้าได้ (ห้ามใช้รหัสผ่านจริง)</p>
+  </section>
+</main>
+<script src="js/auth.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>
